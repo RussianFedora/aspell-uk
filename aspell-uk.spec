@@ -1,35 +1,33 @@
-%define debug_package %{nil}
-%define languagecode uk
-Summary: Ukrainian dictionaries for aspell
-Name: aspell-%{languagecode}
-Version: 1.6.5
-Release: 2
-URL: http://ispell-uk.sourceforge.net/
-Source:	http://freefr.dl.sourceforge.net/project/ispell-uk/spell-uk/1.6.5/spell-uk-1.6.5.tgz
-Patch0: aspell-uk-1.6.5-Makefile.patch
-License: LGPLv3
-Group: Applications/Text
-BuildRoot: %{_tmppath}/%{name}-%{version}-root
-Requires: aspell >= 0.60
-BuildRequires: aspell >= 0.60
-Provides: spell-%{languagecode}
+%global debug_package %{nil}
+%global languagecode uk
+%global debug_package %{nil}
+
+Summary:	Ukrainian dictionaries for aspell
+Name:		aspell-%{languagecode}
+Version:	1.8.0
+Release:	1%{?dist}
+
+URL:		http://ispell-uk.sourceforge.net/
+Source:		http://freefr.dl.sourceforge.net/project/ispell-uk/spell-uk/%{version}/spell-uk-%{version}.tgz
+License:	LGPLv3
+Group:		Applications/Text
+
+Requires:	aspell >= 0.60
+BuildRequires:	aspell >= 0.60
+BuildRequires:	perl-encoding
 
 %description
-This is ukrainian dictionary for spellchecking with aspell program
+This is Ukrainian dictionary for spellchecking with aspell program
 
 %prep
 %setup -q -n spell-uk-%{version}
-%patch0
 
 %build
-make %{?_smp_mflags} aspell
+make ASPELL_ENC=utf-8 ASPELL_ENC_NAME=utf-8 myspell aspell uk.cwl.gz ukrainian
 
 %install
-rm -fr "$RPM_BUILD_ROOT"
-make install-aspell-dict PREFIX="$RPM_BUILD_ROOT"
-
-%clean
-rm -fr $RPM_BUILD_ROOT
+make install PREFIX="$RPM_BUILD_ROOT"
+rm -rf %{buildroot}%{_datadir}/doc/%{name}-%{version}
 
 %files
 %defattr(-,root,root)
@@ -38,6 +36,8 @@ rm -fr $RPM_BUILD_ROOT
 %{_libdir}/aspell-*/koi8-u-nl*
 
 %changelog
+* Mon Apr 18 2016 Arkady L. Shane <ashejn@russianfedora.pro> - 1.8.0-1.R
+- update to 1.8.0
 
 * Tue Mar 20 2012 21:05:34 Pavlo Rudyj <paulcarroty@riseup.net> 1.6.5-2
 - Fixed spec
@@ -61,7 +61,7 @@ rm -fr $RPM_BUILD_ROOT
 - 2K of new words
 - some fixes
 
-* Sun Dec 27 2007 13:00:00 Andriy Rysin <arysin@yahoo.com> 1.5.0
+* Thu Dec 27 2007 13:00:00 Andriy Rysin <arysin@yahoo.com> 1.5.0
 - 3K of new words
 - some fixes
 - some packaging updates
@@ -74,10 +74,10 @@ rm -fr $RPM_BUILD_ROOT
 * Sun Apr 08 2007 06:08:09 Andriy Rysin <arysin@yahoo.com> 1.3.3
 - Some updates and mozilla package fixes
 
-* Tue Jan 26 2007 9:23:00 Andriy Rysin <arysin@yahoo.com> 1.3.1
+* Fri Jan 26 2007 9:23:00 Andriy Rysin <arysin@yahoo.com> 1.3.1
 - Some packaging and filenaming fixes
 
-* Tue Jan 26 2007 01:23:00 Andriy Rysin <arysin@yahoo.com> 1.3.0
+* Fri Jan 26 2007 01:23:00 Andriy Rysin <arysin@yahoo.com> 1.3.0
 - Release 1.3.0
 - Changed versioning to 3 digits
 - Added generation of mozilla xpi package
