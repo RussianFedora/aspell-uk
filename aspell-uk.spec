@@ -14,7 +14,12 @@ Group:		Applications/Text
 
 Requires:	aspell >= 0.60
 BuildRequires:	aspell >= 0.60
+
+%if %{defined rhel}
+BuildRequires:	perl-Encode
+%else
 BuildRequires:	perl-encoding
+%endif
 
 %description
 This is Ukrainian dictionary for spellchecking with aspell program
